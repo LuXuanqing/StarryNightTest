@@ -92,7 +92,7 @@ function getRandomInt(min, max) {
 // 进度
 var progress = {
   count: 0,
-  max: 2,
+  max: 10,
   updateUI: function() {
     this.count++
     var progress = this.count / this.max
@@ -119,7 +119,7 @@ function miss() {
     row: curCell.row,
     col: curCell.col,
     status: 'miss',
-    reactionTime: 3000,
+    reactionTime: elapsedTime,
   }
   progress.updateUI()
   results.push(obj)
@@ -152,7 +152,7 @@ function startTrail() {
         miss()
         curCell.target.hide()
         startTrail()
-      }, 3000)
+      }, elapsedTime)
     }, delay)
   } else {
     endTrail()
@@ -190,3 +190,5 @@ function react() {
 $('.container').on('click', function() {
   react()
 })
+
+var elapsedTime = 500
