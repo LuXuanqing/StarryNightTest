@@ -92,7 +92,7 @@ function getRandomInt(min, max) {
 // 进度
 var progress = {
   count: 0,
-  max: 1,
+  max: 2,
   updateUI: function() {
     this.count++
     var progress = this.count / this.max
@@ -121,6 +121,7 @@ function miss() {
     status: 'miss',
     reactionTime: 3000,
   }
+  progress.updateUI()
   results.push(obj)
   console.info('Miss!@row'+obj.row+',col'+obj.col+' (3s elapsed)')
 }
