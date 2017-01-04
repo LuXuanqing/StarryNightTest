@@ -5,7 +5,7 @@ var elapsedTime = 3000
 // 进度
 var progress = {
   count: 0,
-  max: 1,
+  max: 49,
   updateUI: function() {
     this.count++
     var progress = this.count / this.max
