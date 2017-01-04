@@ -9,7 +9,7 @@ html, body {
   height: 100%;
 }
 body {
-    background-color: black;
+  background-color: black;
 }
 
 .container {
@@ -83,13 +83,18 @@ body {
 }
 .intro h1 {
   text-align: center;
-  font-size: 4em;
+  font-size: 3.6em;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .intro h2 {
   text-align: center;
   font-weight: lighter;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 1.4em;
   margin-top: 1em;
-  margin-bottom: 3em;
+  margin-bottom: 2em;
 }
 /*button*/
 .btn {
@@ -111,7 +116,7 @@ body {
 
 /*tutorial txt*/
 .tuto {
-  max-width: 50%;
+  width: 90%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -127,6 +132,7 @@ body {
 #back {
   margin-top: 2em;
 }
+
 #again {
   position: absolute;
   left: 50%;
