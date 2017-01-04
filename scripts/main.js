@@ -220,4 +220,5 @@ $('#back').on('click', function() {
   $('.tuto').hide('normal', function() {
     $('.intro').show('normal')
   })
+  results = []
 })
