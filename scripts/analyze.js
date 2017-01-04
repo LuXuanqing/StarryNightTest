@@ -1,8 +1,8 @@
 // minimal heatmap instance configuration
 var heatmapInstance = h337.create({
   container: document.querySelector('.heatmap'),
-  radius: 300,
-  blur: 1
+  radius: 320,
+  blur: 1,
 })
 $('.heatmap').hide()
 
