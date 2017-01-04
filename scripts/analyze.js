@@ -1,10 +1,5 @@
-// minimal heatmap instance configuration
-var heatmapInstance = h337.create({
-  container: document.querySelector('.heatmap'),
-  radius: 320,
-  blur: 1,
-})
-$('.heatmap').hide()
+
+
 
 var processedResults = []
 for (var i = 0; i < grid.rows; i++) {
@@ -32,6 +27,8 @@ for (var i = 0; i < grid.rows; i++) {
 var points = []
 var max = 0
 var data = {}
+
+
 function process() {
   results.forEach(
     function(val){
@@ -47,16 +44,6 @@ function process() {
         processedResults[val.row-1][val.col-1].falsAlarms++
       }
       processedResults[val.row-1][val.col-1].calc()
-      // 根据results生成points
-      // if (val.status !== 'falseAlarm') {
-      //   var obj = {
-      //     x: Math.floor(val.col*grid.cellWidth - grid.cellWidth/2),
-      //     y: Math.floor(val.row*grid.cellHeight - grid.cellHeight/2),
-      //     value: Math.floor(val.reactionTime)
-      //   }
-      //   points.push(obj)
-      //   max = Math.max(max, obj.value)
-      // }
     }
   )
   // 根据processedResults生成points
@@ -84,10 +71,21 @@ function process() {
     }
   )
   // 生成heatmap
+  // minimal heatmap instance configuration
+  $('.progressbar').before('<div class="heatmap"></div>')
+  var heatmapInstance = h337.create({
+    container: document.querySelector('.heatmap'),
+    radius: 320,
+    blur: 1,
+  })
   data = {
     max: max,
     data: points
   }
   heatmapInstance.setData(data)
-  $('.heatmap').show()
+  // 插入play again按钮
+  $('.heatmap').prepend('<div class="btn" id="again">Play again</div>')
+  $('#again').on('click', function() {
+    location.reload()
+  })
 }

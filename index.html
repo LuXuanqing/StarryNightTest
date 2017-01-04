@@ -6,13 +6,27 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Starry Night Test</title>
   <link rel="stylesheet" href="main.css">
+  <script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
 </head>
 <body>
-  <div class="heatmap"></div>
+  <div class="tuto">
+    <h1>How to play</h1>
+    <p><strong>Click</strong> anywhere as soon as you see the <strong>red target</strong>.</p>
+    <p>There are 49 trials in all. The yellow bar above shows the progress.</p>
+    <p>After finishing all 49 trials, a heatmap will be generated in which the red area represents longer average reaction time while the green area represents shorter one.</p>
+    <div class="btn" id="back">Back</div>
+  </div>
+  <div class="intro">
+    <div class="bg"></div>
+    <h1>Starry Night Test</h1>
+    <h2>a computerized dyanamic reaction time test for assessment of spatial attention</h2>
+    <div class="btn" id="start">Start</div>
+    <div class="btn" id="tutorial">Tutorial</div>
+  </div>
   <div class="progressbar">
     <div class="innerbar"></div>
   </div>
-  <div class="container">
+  <div class="container" id="starryWrapper">
     <div class="row">
       <div class="cell">
         <div class="target"></div>
@@ -224,7 +238,6 @@
       </div>
     </div>
   </div>
-  <script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
   <script src="scripts/main.js" charset="utf-8"></script>
   <script src="scripts/heatmap.js" charset="utf-8"></script>
   <script src="scripts/analyze.js" charset="utf-8"></script>

@@ -1,9 +1,11 @@
 'use strict'
+
+// 全局变量
 var elapsedTime = 3000
 // 进度
 var progress = {
   count: 0,
-  max: 49,
+  max: 1,
   updateUI: function() {
     this.count++
     var progress = this.count / this.max
@@ -74,7 +76,6 @@ function initDistractors() {
     }
   }
 }
-initDistractors()
 // starry背景distractor
 function starry() {
   // 随机选择一个distractor进行toggle
@@ -95,13 +96,12 @@ function loop() {
     loop()
   },randomInterval)
 }
-loop()
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-// 记录trail结果
+// 记录trial结果
 var count = 0
 var results = []
 function hit(time) {
@@ -139,12 +139,12 @@ function falseAlarm() {
 }
 
 //开始测试
-var trailTimer, missTimer, startTime, endTime, curCell
-function startTrail() {
+var trialTimer, missTimer, startTime, endTime, curCell
+function startTrial() {
   if (progress.count < progress.max) {
     var delay = getRandomInt(700, 2100)
     // 700~2100ms后出现target
-    trailTimer = setTimeout(function(){
+    trialTimer = setTimeout(function(){
       curCell = randCell()
       curCell.target.show()
       startTime = new Date()
@@ -152,22 +152,22 @@ function startTrail() {
       missTimer = setTimeout(function(){
         miss()
         curCell.target.hide()
-        startTrail()
+        startTrial()
       }, elapsedTime)
     }, delay)
   } else {
-    endTrail()
+    stopTrial()
+    process()
   }
 }
-startTrail()
+
 // 结束测试
-function endTrail() {
-  clearTimeout(trailTimer)
+function stopTrial() {
+  clearTimeout(trialTimer)
   clearTimeout(missTimer)
   clearTimeout(starryLoop)
   $('.distractor').hide()
-  alert('Good job! You finished all trails.')
-  process()
+  $('.target').hide()
 }
 
 // 用户响应
@@ -186,9 +186,38 @@ function react() {
     curCell.target.hide()
   }
   // 开始下一次测试
-  clearTimeout(trailTimer)
-  startTrail()
+  clearTimeout(trialTimer)
+  startTrial()
 }
-$('.container').on('click', function() {
-  react()
+
+
+$('#starryWrapper').hide()
+$('#start').on('click', function() {
+  $('.intro').hide('normal', function(){
+    progress.count = 0
+    $('#starryWrapper').show('normal')
+    initDistractors()
+    loop()
+    startTrial()
+    $('#starryWrapper').on('click', function() {
+      react()
+    })
+  })
+})
+$('#tutorial').on('click', function() {
+  $('.intro').hide('normal', function() {
+    initDistractors()
+    loop()
+    startTrial()
+    $('#starryWrapper').show('normal')
+    $('.tuto').show('normal')
+  })
+})
+$('#back').on('click', function() {
+  stopTrial()
+  $('.innerbar').width(0)
+  $('#starryWrapper').hide()
+  $('.tuto').hide('normal', function() {
+    $('.intro').show('normal')
+  })
 })

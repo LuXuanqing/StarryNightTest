@@ -2,10 +2,14 @@
 * {
   margin: 0;
   padding: 0;
+  color: white;
+  font-family: 'Pingfang SC', "Helvetica Neue", Helvetica,  roboto, 'Droid Sans Fallback', 'Droid Sans',Tahoma, Arial, “Microsoft YaHei”, “微软雅黑”, Heiti, “黑体”, sans-serif;
 }
 html, body {
   height: 100%;
-  background-color: black;
+}
+body {
+    background-color: black;
 }
 
 .container {
@@ -35,6 +39,7 @@ html, body {
   left: 50%;
   transform: translate(-50%,-50%);
   z-index: 10;
+  display: none;
 }
 .distractor {
   width: 20px;
@@ -45,6 +50,7 @@ html, body {
   top: 0;
   left: 0;
   z-index: 1;
+  display: none;
 }
 .progressbar {
   width: 100%;
@@ -60,4 +66,75 @@ html, body {
   width: 100%;
   height: 100%;
   position: absolute;
+}
+/*intro*/
+.intro {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.intro .bg {
+  background-image: url(bg.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.intro h1 {
+  text-align: center;
+  font-size: 4em;
+}
+.intro h2 {
+  text-align: center;
+  font-weight: lighter;
+  margin-top: 1em;
+  margin-bottom: 3em;
+}
+/*button*/
+.btn {
+  text-align: center;
+  font-size: 1.8em;
+  line-height: 1.8em;
+  border: 1px solid white;
+  border-radius: 9999px;
+  width: 7em;
+  height: 1.8em;
+  margin: 0 auto;
+  margin-bottom: 1em;
+  cursor: pointer;
+}
+.btn:hover, .btn:active {
+  color: #50C9F3;
+  border-color: #50C9F3;
+}
+
+/*tutorial txt*/
+.tuto {
+  max-width: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+  display: none;
+  z-index: 100;
+}
+.tuto p {
+  font-weight: lighter;
+  margin-top: .5em;
+}
+#back {
+  margin-top: 2em;
+}
+#again {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 100;
+  background-color: black;
 }
