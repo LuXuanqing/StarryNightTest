@@ -1,4 +1,16 @@
 'use strict'
+var elapsedTime = 3000
+// 进度
+var progress = {
+  count: 0,
+  max: 49,
+  updateUI: function() {
+    this.count++
+    var progress = this.count / this.max
+    var percent = progress * 100 + '%'
+    $('.innerbar').width(percent)
+  }
+}
 // 网格尺寸
 var grid = {
   rows: 7,
@@ -89,17 +101,6 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-// 进度
-var progress = {
-  count: 0,
-  max: 10,
-  updateUI: function() {
-    this.count++
-    var progress = this.count / this.max
-    var percent = progress * 100 + '%'
-    $('.innerbar').width(percent)
-  }
-}
 // 记录trail结果
 var count = 0
 var results = []
@@ -119,7 +120,7 @@ function miss() {
     row: curCell.row,
     col: curCell.col,
     status: 'miss',
-    reactionTime: elapsedTime,
+    reactionTime: 500,
   }
   progress.updateUI()
   results.push(obj)
@@ -166,6 +167,7 @@ function endTrail() {
   clearTimeout(starryLoop)
   $('.distractor').hide()
   alert('Good job! You finished all trails.')
+  process()
 }
 
 // 用户响应
@@ -190,5 +192,3 @@ function react() {
 $('.container').on('click', function() {
   react()
 })
-
-var elapsedTime = 500

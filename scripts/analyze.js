@@ -1,30 +1,9 @@
 // minimal heatmap instance configuration
 var heatmapInstance = h337.create({
-  container: document.querySelector('.heatmap')
+  container: document.querySelector('.heatmap'),
+  radius: 300,
+  blur: 1
 })
-// // now generate some random data
-// var points = [];
-// var max = 0;
-// var width = 840;
-// var height = 400;
-// var len = 200;
-//
-// while (len--) {
-//   var val = Math.floor(Math.random()*100);
-//   max = Math.max(max, val);
-//   var point = {
-//     x: Math.floor(Math.random()*width),
-//     y: Math.floor(Math.random()*height),
-//     value: val
-//   };
-//   points.push(point);
-// }
-// // heatmap data format
-// var data = {
-//   max: max,
-//   data: points
-// };
-// heatmapInstance.setData(data)
 $('.heatmap').hide()
 
 var processedResults = []
@@ -38,13 +17,13 @@ for (var i = 0; i < grid.rows; i++) {
       hits: 0,
       misses: 0,
       falsAlarms: 0,
-      accuracy: undefined,
+      acc: undefined,
       totalRT: 0,
       avrRt: undefined,
       calc: function() {
         this.total = this.hits + this.misses + this.falsAlarms
-        this.accuracy = this.hits / this.total
-        this.avrRt = this.totalRT / (this.hits + this.misses)
+        this.acc = this.hits / this.total
+        this.avrRt = this.totalRT / (this.hits+this.misses)
       }
     })
   }
@@ -52,33 +31,60 @@ for (var i = 0; i < grid.rows; i++) {
 
 var points = []
 var max = 0
+var data = {}
 function process() {
-  results.forEach(function(val){
-    var obj = processedResults[val.row-1][val.col-1]
-    if (val.status == 'hit') {
-      processedResults[val.row-1][val.col-1].hit++
-      processedResults[val.row-1][val.col-1].totalRT += val.reactionTime
-    } else if (val.status == 'miss') {
-      processedResults[val.row-1][val.col-1].misses++
-      processedResults[val.row-1][val.col-1].totalRT += val.reactionTime
-    } else if (val.status == 'falseAlarm') {
-      processedResults[val.row-1][val.col-1].falsAlarms++
-    }
-    processedResults[val.row-1][val.col-1].calc()
-  })
-  processedResults.forEach(function(val){
-    val.forEach(function(val){
-      if (val.hits || val.misses) {
-        max = Math.max(max, Math.floor(val.avrRt))
-        points.push({
-          x: Math.floor(val.row*grid.cellWidth - grid.cellWidth/2),
-          y: Math.floor(val.col*grid.cellHeight - grid.cellHeight/2),
-          value: Math.floor(val.avrRt),
-        })
+  results.forEach(
+    function(val){
+      // 根据results生成processedResults
+      var obj = processedResults[val.row-1][val.col-1]
+      if (val.status == 'hit') {
+        processedResults[val.row-1][val.col-1].hits++
+        processedResults[val.row-1][val.col-1].totalRT += val.reactionTime
+      } else if (val.status == 'miss') {
+        processedResults[val.row-1][val.col-1].misses++
+        processedResults[val.row-1][val.col-1].totalRT += val.reactionTime
+      } else if (val.status == 'falseAlarm') {
+        processedResults[val.row-1][val.col-1].falsAlarms++
       }
-    })
-  })
-  var data = {
+      processedResults[val.row-1][val.col-1].calc()
+      // 根据results生成points
+      // if (val.status !== 'falseAlarm') {
+      //   var obj = {
+      //     x: Math.floor(val.col*grid.cellWidth - grid.cellWidth/2),
+      //     y: Math.floor(val.row*grid.cellHeight - grid.cellHeight/2),
+      //     value: Math.floor(val.reactionTime)
+      //   }
+      //   points.push(obj)
+      //   max = Math.max(max, obj.value)
+      // }
+    }
+  )
+  // 根据processedResults生成points
+  processedResults.forEach(
+    // 每一行
+    function(val) {
+      // 一行中的每个元素
+      val.forEach(
+        function(val) {
+          if (val.hits || val.misses) {
+            var factor = -5*val.acc+6
+            var obj = {
+              row: val.row,
+              col: val.col,
+              acc: val.acc,
+              x: Math.floor(val.col*grid.cellWidth - grid.cellWidth/2),
+              y: Math.floor(val.row*grid.cellHeight - grid.cellHeight/2),
+              value: Math.floor(val.avrRt * factor)
+            }
+            points.push(obj)
+            max = Math.max(max, obj.value)
+          }
+        }
+      )
+    }
+  )
+  // 生成heatmap
+  data = {
     max: max,
     data: points
   }
