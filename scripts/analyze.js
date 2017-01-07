@@ -1,6 +1,3 @@
-
-
-
 var processedResults = []
 for (var i = 0; i < grid.rows; i++) {
   processedResults.push([])
@@ -70,14 +67,17 @@ function process() {
       )
     }
   )
+  // $(#starryWrapper).hide()
   // 生成heatmap
-  // minimal heatmap instance configuration
   $('.progressbar').before('<div class="heatmap"></div>')
-  var heatmapInstance = h337.create({
+  // minimal heatmap instance configuration
+  var config = {
     container: document.querySelector('.heatmap'),
-    radius: 320,
+    radius: Math.floor($('.target').width()*7),
     blur: 1,
-  })
+  }
+  var heatmapInstance = h337.create(config)
+  console.log()
   data = {
     max: max,
     data: points
@@ -89,3 +89,9 @@ function process() {
     location.reload()
   })
 }
+
+// var config = {
+//   container: document.querySelector('.heatmap'),
+//   radius: 200,
+//   blur: 1,
+// }
